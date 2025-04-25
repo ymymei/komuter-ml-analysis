@@ -1,0 +1,42 @@
+# Core data processing and analysis
+pandas==2.1.0
+numpy==1.24.3
+scipy==1.11.3
+
+# Data visualization
+matplotlib==3.7.2
+seaborn==0.12.2
+plotly==5.16.1
+kaleido==0.2.1  # For static plotly exports
+ipywidgets==8.0.7  # For interactive plots in notebooks
+
+# Machine learning
+scikit-learn==1.3.0
+xgboost==2.0.0
+lightgbm==4.1.0
+catboost==1.2.0
+
+# Time series forecasting
+statsmodels==0.14.0
+prophet==1.1.4
+pmdarima==2.0.3  # For auto ARIMA models
+
+# Anomaly detection
+pyod==1.1.0  # Python Outlier Detection toolbox
+tensorflow==2.13.0  # For autoencoders
+keras==2.13.1
+
+# Geospatial analysis (for transit network visualization)
+geopandas==0.13.2
+folium==0.14.0
+
+# Notebook environment
+ipykernel==6.25.2
+notebook==7.0.3
+jupyterlab==4.0.5
+
+# Utilities
+tqdm==4.66.1  # Progress bars
+python-dateutil==2.8.2
+pytz==2023.3
+joblib==1.3.2  # For parallel processing

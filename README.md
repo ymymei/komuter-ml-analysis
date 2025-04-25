@@ -10,10 +10,38 @@ We have selected the following dataset for our project:
 - **Dataset Source**: [data.gov.my - Ridership OD Komuter](https://data.gov.my/data-catalogue/ridership_od_komuter?)
 - **Data Volume**: ~30,000+ records
 
-## Project Objective
-We are developing a **Ridership Prediction Model** to predict the number of passengers traveling between any origin-destination pair based on temporal features (hour, day of week) and station characteristics.
+## Project Objective: Dynamic Route Scheduling & Anomaly Detection System
 
-This model will help KTM optimize train frequencies and capacities based on predicted demand, improve resource allocation during peak hours, and enable better planning for maintenance schedules during low-ridership periods.
+We are developing a multi-objective prediction system that combines time series forecasting with anomaly detection to create a distinctive solution for KTM Komuter operations.
+
+### Target Variables
+- **Primary**: Hourly ridership between station pairs (regression)
+- **Secondary**: Anomaly classification (binary: normal vs. unusual patterns)
+
+### Key Features
+
+1. **Time-Based Route Importance**:
+   - Predict the relative importance of each route by hour
+   - Create a "heat map" of the network showing where resources should be allocated
+   - Identify critical routes that require prioritization during specific time periods
+
+2. **Anomaly Detection Layer**:
+   - Identify unusual ridership patterns that deviate from expected norms
+   - Flag situations where additional trains may be needed or schedule adjustments required
+   - Detect potential service disruptions before they impact passenger experience
+
+3. **Actionable Schedule Recommendations**:
+   - Convert predictions into concrete operational recommendations
+   - Optimize departure frequency by hour and station
+   - Determine when to deploy additional train cars
+   - Identify days that might require extended operating hours
+
+### Business Value
+This system will provide KTM with:
+- Optimized resource allocation based on predicted demand
+- Early warning for unusual events requiring operational changes
+- Data-driven scheduling recommendations for improved service
+- Enhanced ability to plan for special events and holidays
 
 ## Team Member Roles
 
@@ -52,12 +80,14 @@ This model will help KTM optimize train frequencies and capacities based on pred
     - Auto-sklearn implementation (required by project spec)
   - Feature importance analysis
   - Hyperparameter optimization
+  - Implement time series models (ARIMA, Prophet) for temporal components
 
 ### Member 5: Evaluation & Presentation Lead
 - **Responsibilities:**
   - Design comprehensive evaluation framework
   - Compare all models using consistent metrics
   - Create visualizations of model performance
+  - Develop anomaly detection visualization dashboards
   - Prepare the final presentation slides
   - Coordinate the 5-minute video presentation
   - Ensure all deliverables meet submission requirements
@@ -111,57 +141,6 @@ for chunk in pd.read_csv('large_dataset.csv', chunksize=chunk_size):
 - **Progressive validation**: Evaluating performance incrementally as training proceeds
 - **Holdout validation**: Using separate, representative test sets
 
-## Project Purpose 
-
-### Theme: Hourly Origin-Destination Ridership (Komuter)
-
-#### Potential Project Purposes:
-1. **Predictive Ridership Modeling**
-   - Forecast passenger volumes based on time, day, season, and other factors
-   - Help transportation authorities optimize train schedules and capacity
-   - Enable dynamic resource allocation during peak and off-peak hours
-
-2. **Travel Pattern Analysis**
-   - Identify common commuter routes and patterns
-   - Analyze how travel behaviors change over time (daily, weekly, seasonally)
-   - Discover underserved routes or overburdened sections
-
-3. **Anomaly Detection System**
-   - Develop models to detect unusual ridership patterns
-   - Create early warning systems for service disruptions
-   - Identify special events that significantly impact the transportation network
-
-4. **Route Optimization Framework**
-   - Build models to recommend optimal train frequencies and capacities
-   - Suggest new routes or modifications to existing routes
-   - Minimize travel time and maximize passenger satisfaction
-
-### Recommended ML Objectives
-
-#### 1. Ridership Prediction Model
-**Objective:** Develop a regression model to predict the number of passengers traveling between any origin-destination pair based on temporal features (hour, day of week) and station characteristics.
-
-**Business Value:**
-Help KTM optimize train frequencies and capacities based on predicted demand
-Improve resource allocation during peak hours
-Enable better planning for maintenance schedules during low-ridership periods
-
-#### 2. Peak Period Classification
-**Objective:** Build a classification model to predict whether a specific time period will experience high, medium, or low ridership volumes across the network.
-
-**Business Value:**
-Allow for dynamic staffing and resource allocation
-Help passengers plan their journeys to avoid crowded periods
-Support pricing strategies like peak/off-peak fares
-
-#### 3. Station Clustering for Service Planning
-**Objective:** Develop a clustering model to group stations with similar ridership patterns and characteristics.
-
-**Business Value:**
-Identify stations that may benefit from similar service improvements
-Discover natural service zones for planning purposes
-Support targeted marketing campaigns to specific station clusters
-
 ## Project Timeline
 - **Weeks 6:** ✅ Problem definition, data exploration
 - **Week 6-7:** 🔄 Data preprocessing, feature engineering (IN PROGRESS)
@@ -214,4 +193,3 @@ komuter_ridership_analysis/
 ├── models/                 # Trained and serialized models
 ├── environment.yml         # Conda environment file
 └── README.md               # Project description and setup instructions
-```
