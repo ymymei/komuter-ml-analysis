@@ -215,22 +215,3 @@ komuter_ridership_analysis/
 ├── environment.yml         # Conda environment file
 └── README.md               # Project description and setup instructions
 ```
-
-## Setup Instructions
-```bash
-# Clone the repository
-git clone [repository-url]
-
-# Navigate to the project directory
-cd [project-directory]
-
-# Install required packages
-pip install -r requirements.txt
-```
-
-## Contact
-For any questions regarding this project, please contact:
-- [Group Representative Name] - [Email]
-
----
-*Last Updated: April 23, 2025*
