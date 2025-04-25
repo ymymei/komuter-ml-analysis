@@ -1,0 +1,93 @@
+# WIA1006 Machine Learning Assignment 
+
+## Project Workflow Overview
+
+### 1. Problem Understanding
+- Define the specific problem to be solved
+- Identify the business context and importance
+- Set clear objectives and success metrics
+- Determine if this is a classification, regression, clustering, or other type of ML problem
+- Research existing solutions and approaches
+
+### 2. Data Collection
+- Identify required data sources (datasets, APIs, web scraping, etc.)
+- Consider data volume requirements
+- Ensure data relevance to the problem
+- Verify data quality and accessibility
+- Document data sources and collection methods
+
+### 3. Data Exploration & Preprocessing
+- Perform exploratory data analysis (EDA)
+  - Statistical summaries
+  - Distribution analysis
+  - Feature correlations
+  - Missing value assessment
+- Data cleaning
+  - Handle missing values
+  - Remove duplicates
+  - Fix inconsistencies
+  - Outlier detection and treatment
+- Feature engineering
+  - Create new features
+  - Transform existing features
+  - Encode categorical variables
+  - Scale/normalize numerical features
+- Data splitting (training, validation, testing)
+
+### 4. Model Building
+- Select appropriate algorithms based on problem type
+- Implement baseline models
+- Tune hyperparameters using:
+  - Grid search
+  - Random search
+  - Bayesian optimization
+- Implement more complex models as needed
+- Ensemble methods if appropriate
+
+### 5. Model Evaluation
+- Define appropriate evaluation metrics
+  - Classification: accuracy, precision, recall, F1-score, AUC-ROC, etc.
+  - Regression: MAE, MSE, RMSE, R², etc.
+  - Clustering: silhouette score, Davies-Bouldin index, etc.
+- Validate models using:
+  - Cross-validation
+  - Holdout validation
+- Compare model performance
+- Analyze errors and edge cases
+
+### 6. Model Interpretation & Insights
+- Feature importance analysis
+- Partial dependence plots
+- SHAP values
+- Model behavior analysis
+- Explainable AI techniques
+
+### 7. Model Deployment (if required)
+- Export trained model
+- Create deployment environment
+- Implement inference pipeline
+- Create user interface (if needed)
+- Monitor performance
+
+### 8. Documentation & Reporting
+- Code documentation
+- Process documentation
+- Results summary and visualization
+- Conclusions and recommendations
+- Future improvements
+
+## Implementation Tools
+- Programming environment: Python in Google Colab/Jupyter Notebooks
+- Key libraries:
+  - Data manipulation: pandas, NumPy
+  - Visualization: matplotlib, seaborn, Plotly
+  - Machine learning: scikit-learn, TensorFlow/Keras, PyTorch
+  - Evaluation: scikit-learn.metrics
+  - Deployment: Flask/FastAPI (if needed)
+
+## Project Timeline
+1. Problem Understanding & Data Collection: [Dates]
+2. Data Exploration & Preprocessing: [Dates]
+3. Model Building & Evaluation: [Dates]
+4. Interpretation & Documentation: [Dates]
+5. Final Submission: [Dates]
