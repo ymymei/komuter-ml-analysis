@@ -10,37 +10,60 @@ We have selected the following dataset for our project:
 - **Dataset Source**: [data.gov.my - Ridership OD Komuter](https://data.gov.my/data-catalogue/ridership_od_komuter?)
 - **Data Volume**: ~30,000+ records
 
-## Project Objective: Dynamic Route Scheduling & Anomaly Detection System
+## Project Objective: Dynamic Route Scheduling & Anomaly Detection System / KomuterPulse - Real-time Transit Intelligence Platform
 
-We are developing a multi-objective prediction system that combines time series forecasting with anomaly detection to create a distinctive solution for KTM Komuter operations.
+We are developing a comprehensive real-time transit intelligence platform that transforms raw ridership data into actionable insights for KTM Komuter operations. KomuterPulse combines advanced time series forecasting with anomaly detection using a hybrid AI approach to revolutionize transit management.
 
 ### Target Variables
 - **Primary**: Hourly ridership between station pairs (regression)
 - **Secondary**: Anomaly classification (binary: normal vs. unusual patterns)
 
 ### Key Features
-
 1. **Time-Based Route Importance**:
-   - Predict the relative importance of each route by hour
-   - Create a "heat map" of the network showing where resources should be allocated
+   - Predict the relative importance of each route by hour with visual heatmaps
+   - Create a dynamic "heat map" of the network showing where resources should be allocated
    - Identify critical routes that require prioritization during specific time periods
+   - Provide real-time passenger load predictions to prevent overcrowding
 
-2. **Anomaly Detection Layer**:
+2. **Anomaly Detection & Predictive Intelligence**:
    - Identify unusual ridership patterns that deviate from expected norms
    - Flag situations where additional trains may be needed or schedule adjustments required
    - Detect potential service disruptions before they impact passenger experience
+   - Generate predictive alerts for station managers and operations teams
 
 3. **Actionable Schedule Recommendations**:
    - Convert predictions into concrete operational recommendations
    - Optimize departure frequency by hour and station
    - Determine when to deploy additional train cars
    - Identify days that might require extended operating hours
+   - Suggest dynamic pricing strategies based on demand forecasting
+
+4. **Environmental & Social Impact Assessment**:
+   - Calculate carbon footprint reduction metrics from optimized scheduling
+   - Provide accessibility scoring to highlight stations needing improvement
+   - Analyze multi-modal integration opportunities with other transit systems
+   - Quantify social impact through improved service reliability metrics
+
+5. **Advanced Visualization Suite**:
+   - Interactive network diagrams showing passenger flows
+   - Real-time operational dashboards with predictive alerts
+   - Animated time-series visualizations showing historical patterns
+   - Comparative analysis of actual vs. optimized schedules
+
+### Technical Innovation
+Our solution leverages cutting-edge techniques:
+- Hybrid modeling approach combining statistical methods with deep learning
+- Transfer learning techniques adapted from other transit systems
+- Explainable AI components making predictions transparent and trustworthy
+- Edge deployment capabilities for station-level processing and real-time insights
 
 ### Business Value
-This system will provide KTM with:
-- Optimized resource allocation based on predicted demand
-- Early warning for unusual events requiring operational changes
-- Data-driven scheduling recommendations for improved service
+KomuterPulse will provide KTM with measurable benefits:
+- Projected revenue increases of 15-20% from optimized scheduling and dynamic pricing
+- Operational cost savings through more efficient resource allocation
+- Customer satisfaction improvements from reduced delays and overcrowding
+- Sustainability metrics showing reduced emissions from optimized train deployment
+- Data-driven decision making for both daily operations and strategic planning
 - Enhanced ability to plan for special events and holidays
 
 ## Team Member Roles
