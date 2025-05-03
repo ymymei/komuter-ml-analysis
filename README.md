@@ -3,6 +3,13 @@
 ## Project Overview
 This repository contains our group's machine learning project for the WIA1006 Machine Learning course at FCSIT UM. Our goal is to apply machine learning techniques to solve real-world problems using public datasets from the [Malaysian government](https://data.gov.my/). 
 
+## Team: Artificial Not Intelligent
+- Mah Qing Fung
+- Ajax Kang AJ
+- Chong Yu En
+- Lee Yi Mei
+- Oi Kay Yi
+
 ## Theme Selection
 We have selected the following dataset for our project:
 
@@ -65,6 +72,34 @@ KomuterPulse will provide KTM with measurable benefits:
 - Sustainability metrics showing reduced emissions from optimized train deployment
 - Data-driven decision making for both daily operations and strategic planning
 - Enhanced ability to plan for special events and holidays
+
+## Data Processing Pipeline
+
+We've developed a comprehensive data processing pipeline that transforms raw Komuter ridership data into feature-rich datasets optimized for machine learning:
+
+### Processed Dataset Overview
+
+1. **komuter_features.csv**:
+   - Transaction-level dataset with all original records and engineered features
+   - Preserves individual passenger journey details
+   - Contains time segment features (peak hours, weekends) and outlier flags
+   - Suitable for detailed journey analysis and anomaly detection
+
+2. **komuter_processed.csv**:
+   - Aggregated route-hour level dataset combining records by route, date, and hour
+   - Includes summary statistics (total/avg/max ridership) for each route-hour
+   - Features time series elements like lagged variables and rolling statistics
+   - Optimized for route scheduling and ridership forecasting
+
+3. **komuter_train.csv**:
+   - Chronological subset (first ~80%) of processed data for model training
+   - Contains all features from the processed dataset
+   - Used for developing forecasting and anomaly detection models
+
+4. **komuter_test.csv**:
+   - Chronological subset (last ~20%) of processed data for model evaluation
+   - Ensures proper temporal validation without data leakage
+   - Simulates real-world forecasting scenarios with future data
 
 ## Team Member Roles
 
@@ -165,54 +200,58 @@ for chunk in pd.read_csv('large_dataset.csv', chunksize=chunk_size):
 - **Holdout validation**: Using separate, representative test sets
 
 ## Project Timeline
-- **Weeks 6:** ✅ Problem definition, data exploration
-- **Week 6-7:** 🔄 Data preprocessing, feature engineering (IN PROGRESS)
-- **Weeks 7-9:** Model development and tuning
+- **Week 6:** ✅ Problem definition, data exploration
+- **Weeks 6-7:** ✅ Data preprocessing, feature engineering
+- **Weeks 7-9:** 🔄 Model development and tuning (IN PROGRESS)
 - **Weeks 10-11:** Model evaluation and comparison, presentation preparation
 - **Week 12:** Final submission
 - **Week 14:** Final pitching (if selected as finalist)
 
+## Current Project Structure
+```
+Project_Workflow.txt
+README.md
+requirements.txt
+WIA1006 Group Assignment 2024_25.pdf
+data/
+    processed/
+        komuter_features.csv
+        komuter_processed.csv
+        komuter_test.csv
+        komuter_train.csv
+    raw/
+        crops_district_production.csv
+        komuter_2025.csv
+notebooks/
+    01_data_exploration.ipynb
+    02_data_preprocessing.ipynb
+    03_feature_engineering.ipynb
+    04_model_development.ipynb
+    05_model_evaluation.ipynb
+src/
+    Introduction.py
+    data/
+        data_loading.py
+        make_dataset.py
+    models/
+```
 
-## Repository Structure
+## Getting Started
+
+### Prerequisites
+- Python 3.8+
+- Required packages listed in `requirements.txt`
+
+### Installation
+1. Clone this repository
+2. Create a virtual environment (recommended)
+3. Install dependencies:
+```bash
+pip install -r requirements.txt
 ```
-├── data/                   # Data storage (raw, processed)
-├── notebooks/              # Jupyter notebooks for exploration and modeling
-├── src/                    # Source code for utilities and reusable functions
-├── models/                 # Saved model files
-├── reports/                # Generated analysis reports
-└── ML_Project_Notebook.ipynb  # Main project notebook
+
+### Running the Notebooks
+Navigate to the notebooks directory and start with `01_data_exploration.ipynb` to understand the workflow:
+```bash
+jupyter notebook notebooks/01_data_exploration.ipynb
 ```
-```
-komuter_ridership_analysis/
-├── data/
-│   ├── raw/                  # Original, immutable data
-│   │   └── komuter_2025.csv
-│   ├── processed/            # Cleaned, transformed data
-│   └── external/             # External data sources if needed
-├── notebooks/               # Jupyter notebooks for exploration and presentation
-│   ├── 01_data_exploration.ipynb
-│   ├── 02_data_preprocessing.ipynb
-│   ├── 03_feature_engineering.ipynb
-│   ├── 04_model_development.ipynb
-│   └── 05_model_evaluation.ipynb
-├── src/                     # Source code for use in this project
-│   ├── __init__.py
-│   ├── data/                # Scripts to process data
-│   │   ├── __init__.py
-│   │   ├── make_dataset.py
-│   │   └── preprocess.py
-│   ├── features/           # Scripts to turn processed data into features
-│   │   ├── __init__.py
-│   │   └── build_features.py
-│   ├── models/             # Scripts to train and evaluate models
-│   │   ├── __init__.py
-│   │   ├── train_model.py
-│   │   └── predict_model.py
-│   └── visualization/      # Scripts for creating exploratory and results visualizations
-│       ├── __init__.py
-│       └── visualize.py
-├── reports/                # Generated analysis reports
-│   └── figures/            # Generated graphics and figures
-├── models/                 # Trained and serialized models
-├── environment.yml         # Conda environment file
-└── README.md               # Project description and setup instructions
