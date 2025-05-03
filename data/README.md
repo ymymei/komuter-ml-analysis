@@ -29,8 +29,4 @@ Run the data preprocessing notebooks in sequence:
 ### Option 2: Download from shared storage
 
 Team members can download the processed files from our shared Google Drive folder:
-[KTM Komuter Data Files](https://drive.google.com/drive/folders/YOUR_FOLDER_ID)
-
-### Option 3: Request from team members
-
-Contact any team member to share the files directly.
+[KTM Komuter Data Files](https://drive.google.com/drive/folders/1uTp05tN6uCVXIlCNIDzUw0r4d0HBMSsy?usp=drive_link)

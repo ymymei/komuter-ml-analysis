@@ -17,7 +17,7 @@ We have selected the following dataset for our project:
 - **Dataset Source**: [data.gov.my - Ridership OD Komuter](https://data.gov.my/data-catalogue/ridership_od_komuter?)
 - **Data Volume**: ~30,000+ records
 
-## Project Objective: Dynamic Route Scheduling & Anomaly Detection System / KomuterPulse - Real-time Transit Intelligence Platform
+## Project Objective: KomuterPulse - Real-time Transit Intelligence Platform
 
 We are developing a comprehensive real-time transit intelligence platform that transforms raw ridership data into actionable insights for KTM Komuter operations. KomuterPulse combines advanced time series forecasting with anomaly detection using a hybrid AI approach to revolutionize transit management.
 
@@ -101,69 +101,6 @@ We've developed a comprehensive data processing pipeline that transforms raw Kom
    - Ensures proper temporal validation without data leakage
    - Simulates real-world forecasting scenarios with future data
 
-## Team Member Roles
-
-### Member 1: Project Manager & Data Collection Lead
-- **Responsibilities:**
-  - Define the specific ML problem and objectives
-  - Manage the project timeline and deliverables
-  - Lead the data acquisition and understanding
-  - Document the data sources and limitations
-  - Help coordinate model comparison
-
-### Member 2: Data Preprocessing & Feature Engineering Lead
-- **Responsibilities:**
-  - Clean the Komuter dataset (handling missing values, outliers)
-  - Create temporal features (peak hours, weekday/weekend, etc.)
-  - Engineer network-based features (station popularity, connectivity)
-  - Create distance-based features between stations
-  - Prepare preprocessed data for modeling
-
-### Member 3: Model Development Lead (Regression Models)
-- **Responsibilities:**
-  - Implement and tune traditional regression models:
-    - Linear Regression
-    - Decision Tree Regression
-    - Random Forest Regression
-    - Gradient Boosting
-  - Document model assumptions and limitations
-  - Evaluate models using appropriate metrics (RMSE, MAE, R²)
-
-### Member 4: Advanced Model Development Lead
-- **Responsibilities:**
-  - Implement and tune more advanced models:
-    - Neural Networks (MLP Regressor)
-    - Support Vector Regression
-    - XGBoost/LightGBM
-    - Auto-sklearn implementation (required by project spec)
-  - Feature importance analysis
-  - Hyperparameter optimization
-  - Implement time series models (ARIMA, Prophet) for temporal components
-
-### Member 5: Evaluation & Presentation Lead
-- **Responsibilities:**
-  - Design comprehensive evaluation framework
-  - Compare all models using consistent metrics
-  - Create visualizations of model performance
-  - Develop anomaly detection visualization dashboards
-  - Prepare the final presentation slides
-  - Coordinate the 5-minute video presentation
-  - Ensure all deliverables meet submission requirements
-
-## Collaborative Tasks (All Members)
-
-1. **Initial Brainstorming**
-   - Define the specific prediction task
-   - Identify potential features and approaches
-
-2. **Model Selection Meeting**
-   - Decide on the final set of 5+ models to implement
-   - Agree on evaluation metrics
-
-3. **Final Review**
-   - Review all components before submission
-   - Practice presentation to ensure it fits within 5 minutes
-
 ## Handling Large Datasets
 
 ### Technical Approaches for Large Data Processing
@@ -202,8 +139,8 @@ for chunk in pd.read_csv('large_dataset.csv', chunksize=chunk_size):
 ## Project Timeline
 - **Week 6:** ✅ Problem definition, data exploration
 - **Weeks 6-7:** ✅ Data preprocessing, feature engineering
-- **Weeks 7-9:** 🔄 Model development and tuning (IN PROGRESS)
-- **Weeks 10-11:** Model evaluation and comparison, presentation preparation
+- **Weeks 7-8:** 🔄 Model development and tuning (IN PROGRESS)
+- **Weeks 9-11:** Model evaluation and comparison, presentation preparation
 - **Week 12:** Final submission
 - **Week 14:** Final pitching (if selected as finalist)
 
@@ -251,7 +188,8 @@ pip install -r requirements.txt
 ```
 
 ### Running the Notebooks
-Navigate to the notebooks directory and start with `01_data_exploration.ipynb` to understand the workflow:
-```bash
-jupyter notebook notebooks/01_data_exploration.ipynb
-```
+Navigate to the notebooks directory and start with `01_data_exploration.ipynb` and `02_data_preprocessing.ipnyb` to understand the workflow.
+
+or
+
+Open Google Collab, upload the ipnyb. files from this repo link to run the notebooks.
