@@ -16,6 +16,30 @@ The processed data files exceed GitHub's file size limits (over 50MB and 100MB) 
 - `komuter_test.csv` (60.11 MB) - Testing dataset (20% of data)
 - `komuter_features.csv` (69.81 MB) - Transaction-level dataset with features
 
+## Processed Dataset Overview
+
+### komuter_features.csv
+- Transaction-level dataset with all original records and engineered features
+- Preserves individual passenger journey details
+- Contains time segment features (peak hours, weekends) and outlier flags
+- Suitable for detailed journey analysis and anomaly detection
+
+### komuter_processed.csv
+- Aggregated route-hour level dataset combining records by route, date, and hour
+- Includes summary statistics (total/avg/max ridership) for each route-hour
+- Features time series elements like lagged variables and rolling statistics
+- Optimized for route scheduling and ridership forecasting
+
+### komuter_train.csv
+- Chronological subset (first ~80%) of processed data for model training
+- Contains all features from the processed dataset
+- Used for developing forecasting and anomaly detection models
+
+### komuter_test.csv
+- Chronological subset (last ~20%) of processed data for model evaluation
+- Ensures proper temporal validation without data leakage
+- Simulates real-world forecasting scenarios with future data
+
 ## Getting the Data Files
 
 Team members can obtain these files through any of these options:
