@@ -12,6 +12,14 @@ KomuterPulse is an advanced machine learning project developed for the WIA1006 M
 
 We are developing a comprehensive real-time transit intelligence platform that transforms raw ridership data into actionable insights for KTM Komuter operations. KomuterPulse combines advanced time series forecasting with anomaly detection using a hybrid AI approach to revolutionize transit management.
 
+### Dataset
+
+The project leverages public transportation data from the Malaysian government open data initiative:
+
+* **Dataset**: [Hourly Origin-Destination Ridership for KTM Komuter](https://data.gov.my/data-catalogue/ridership_od_komuter?)
+* **Volume**: 670000+ records
+* **Format**: Time series data with origin-destination pairs
+
 ### Target Variables
 - **Primary**: Hourly ridership between station pairs (regression)
 - **Secondary**: Anomaly classification (binary: normal vs. unusual patterns)
@@ -65,24 +73,6 @@ KomuterPulse will provide KTM with measurable benefits:
 - Data-driven decision making for both daily operations and strategic planning
 - Enhanced ability to plan for special events and holidays
 
-## Team: Artificial Not Intelligent
-
-| Name | Role |
-|------|------|
-| Mah Qing Fung | Lead Data Scientist |
-| Ajax Kang AJ | ML Engineer |
-| Chong Yu En | Data Preprocessing Specialist |
-| Lee Yi Mei | Feature Engineering Lead |
-| Oi Kay Yi | Model Evaluation Expert |
-
-## Dataset
-
-The project leverages public transportation data from the Malaysian government open data initiative:
-
-* **Dataset**: [Hourly Origin-Destination Ridership for KTM Komuter](https://data.gov.my/data-catalogue/ridership_od_komuter?)
-* **Volume**: 670000+ records
-* **Format**: Time series data with origin-destination pairs
-
 ## Solution Architecture
 
 KomuterPulse combines Long Short-Term Memory (LSTM) neural networks with classical machine learning techniques to deliver a comprehensive transit intelligence solution. Our system:
@@ -93,8 +83,6 @@ KomuterPulse combines Long Short-Term Memory (LSTM) neural networks with classic
 4. **Recommends** operational optimizations
 
 ### Core Capabilities
-
-![KomuterPulse Capabilities](https://via.placeholder.com/800x400?text=KomuterPulse+System+Architecture)
 
 1. **Time-Based Route Importance**
    - Predictive heatmaps of network demand
@@ -217,15 +205,16 @@ Begin with `01_data_exploration.ipynb` and follow the numbered sequence.
 #### Alternative: Google Colab
 You can also run the notebooks in Google Colab by uploading them from this repository.
 
-## Future Work
-
-- Deployment of real-time prediction API
-- Integration with KTM operations dashboard
-- Extension to other transit modes
-- Mobile application for passenger-facing insights
-
 ## Acknowledgments
 
 - Faculty of Computer Science & Information Technology, University of Malaya
 - Malaysian government's open data initiative
 - KTM Komuter for the dataset
+
+## Team: Artificial Not Intelligent
+
+- Mah Qing Fung
+- Ajax Kang AJ
+- Chong Yu En
+- Lee Yi Mei
+- Oi Kay Yi
