@@ -11,10 +11,10 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- Header Banner ---
+# --- Header Banner (Main Content) ---
 st.markdown(
     """
-    <div style='background: linear-gradient(90deg, #003366 0%, #0055a5 100%); padding: 1.5rem 2rem; border-radius: 0 0 18px 18px; margin-bottom: 2rem;'>
+    <div style='background: linear-gradient(90deg, #003366 0%, #0055a5 100%); padding: 1.5rem 2rem; border-radius: 18px; margin-bottom: 2rem;'>
         <h1 style='color: #fff; display: flex; align-items: center; gap: 1rem; margin: 0;'>
             <span style='font-size: 2.5rem;'>🚆</span> KomuterPulse
         </h1>
@@ -24,17 +24,80 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Sidebar navigation
-st.sidebar.title("KomuterPulse")
-st.sidebar.markdown("Real-time Transit Intelligence Platform")
-st.sidebar.header("Navigation")
-st.sidebar.markdown("""
-- [Main Dashboard](#main-dashboard)
-- [Route Importance](#route-importance)
-- [Anomaly Detection](#anomaly-detection)
-- [Schedule Recommendations](#schedule-recommendations)
-- [Impact Analysis](#impact-analysis)
-""")
+# --- Sidebar ---
+# Enhanced Sidebar Header and Layout
+st.sidebar.markdown(
+    """
+    <style>
+    .sidebar-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    .sidebar-logo {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }
+    .sidebar-title {
+        color: #fff;
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 0.2rem;
+        text-align: center;
+    }
+    .sidebar-subtitle {
+        color: #b0b0b0;
+        font-size: 1rem;
+        font-weight: 400;
+        margin-bottom: 1.2rem;
+        text-align: center;
+    }
+    .sidebar-divider {
+        border-top: 1px solid #444;
+        margin: 1.2rem 0 1.2rem 0;
+        width: 90%;
+    }
+    </style>
+    <div class='sidebar-section'>
+        <div class='sidebar-logo'>🚆</div>
+        <div class='sidebar-title'>KomuterPulse</div>
+        <div class='sidebar-subtitle'>Transit Intelligence Platform</div>
+    </div>
+    <div class='sidebar-divider'></div>
+    """,
+    unsafe_allow_html=True
+)
+
+# Styled Navigation Links
+st.sidebar.markdown("### Navigation")
+st.sidebar.markdown(
+    """
+    <style>
+    .sidebar .sidebar-content {
+        padding-top: 0 !important;
+    }
+    .sidebar .stButton button {
+        width: 100%;
+        text-align: left;
+        padding-left: 1.5rem;
+        border: none;
+        background-color: transparent;
+        color: inherit;
+    }
+    .sidebar .stButton button:hover {
+        background-color: #f0f2f6;
+        color: #003366;
+    }
+    .sidebar .stButton button:active {
+        background-color: #e0e0e0;
+        color: #003366;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # --- System Status Overview ---
 st.markdown("""<hr style='margin-top:0; margin-bottom:1.5rem; border: 1px solid #e0e0e0;'>""", unsafe_allow_html=True)

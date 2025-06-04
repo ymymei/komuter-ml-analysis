@@ -211,6 +211,11 @@ You can also run the notebooks in Google Colab by uploading them from this repos
 - Malaysian government's open data initiative
 - KTM Komuter for the dataset
 
+## How to run
+```
+python -m streamlit run src/app/main.py
+```
+
 ## Team: Artificial Not Intelligent
 
 - Mah Qing Fung
