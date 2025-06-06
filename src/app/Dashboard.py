@@ -5,6 +5,7 @@ import plotly.graph_objects as go
 import numpy as np
 from datetime import datetime, timedelta
 from src.app.utils.model_loader import ModelManager
+from src.app.utils.navigation import render_custom_navigation, add_sidebar_logo
 
 # Initialize model manager in session state if not already present
 if 'model_manager' not in st.session_state:
@@ -17,7 +18,7 @@ if 'model_manager' not in st.session_state:
 
 # Page configuration
 st.set_page_config(
-    page_title="KomuterPulse",
+    page_title="Dashboard - KomuterPulse",
     page_icon="🚆",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -124,79 +125,7 @@ Our solution combines advanced time series forecasting with anomaly detection us
 """)
 
 # --- Sidebar ---
-# Enhanced Sidebar Header and Layout
-st.sidebar.markdown(
-    """
-    <style>
-    .sidebar-section {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 1.5rem;
-        margin-bottom: 1.5rem;
-    }
-    .sidebar-logo {
-        font-size: 2.5rem;
-        margin-bottom: 0.5rem;
-    }
-    .sidebar-title {
-        color: #fff;
-        font-size: 1.5rem;
-        font-weight: bold;
-        margin-bottom: 0.2rem;
-        text-align: center;
-    }
-    .sidebar-subtitle {
-        color: #b0b0b0;
-        font-size: 1rem;
-        font-weight: 400;
-        margin-bottom: 1.2rem;
-        text-align: center;
-    }
-    .sidebar-divider {
-        border-top: 1px solid #444;
-        margin: 1.2rem 0 1.2rem 0;
-        width: 90%;
-    }
-    </style>
-    <div class='sidebar-section'>
-        <div class='sidebar-logo'>🚆</div>
-        <div class='sidebar-title'>KomuterPulse</div>
-        <div class='sidebar-subtitle'>Transit Intelligence Platform</div>
-    </div>
-    <div class='sidebar-divider'></div>
-    """,
-    unsafe_allow_html=True
-)
-
-# Styled Navigation Links
-st.sidebar.markdown("### Navigation")
-st.sidebar.markdown(
-    """
-    <style>
-    .sidebar .sidebar-content {
-        padding-top: 0 !important;
-    }
-    .sidebar .stButton button {
-        width: 100%;
-        text-align: left;
-        padding-left: 1.5rem;
-        border: none;
-        background-color: transparent;
-        color: inherit;
-    }
-    .sidebar .stButton button:hover {
-        background-color: #f0f2f6;
-        color: #003366;
-    }
-    .sidebar .stButton button:active {
-        background-color: #e0e0e0;
-        color: #003366;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+# The built-in Streamlit navigation will appear here automatically
 
 # --- System Status Overview ---
 st.markdown("""<hr style='margin-top:0; margin-bottom:1.5rem; border: 1px solid #2a3042;'>""", unsafe_allow_html=True)

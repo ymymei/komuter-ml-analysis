@@ -5,6 +5,11 @@ import plotly.graph_objects as go
 import plotly.express as px
 from datetime import datetime, timedelta
 import random
+import sys
+from pathlib import Path
+
+# Add the src directory to the Python path for imports
+sys.path.append(str(Path(__file__).parents[2]))
 from src.app.utils.data_processor import process_user_input
 
 st.set_page_config(page_title="Trip Analysis", page_icon="📍")

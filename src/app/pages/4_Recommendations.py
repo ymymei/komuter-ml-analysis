@@ -4,6 +4,11 @@ import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
 from datetime import datetime, timedelta
+import sys
+from pathlib import Path
+
+# Add the src directory to the Python path for imports
+sys.path.append(str(Path(__file__).parents[2]))
 
 st.set_page_config(page_title="Recommendations", page_icon="🚦")
 

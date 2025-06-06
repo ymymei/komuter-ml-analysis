@@ -213,7 +213,7 @@ You can also run the notebooks in Google Colab by uploading them from this repos
 
 ## How to run
 ```
-python -m streamlit run src/app/main.py
+python -m streamlit run src/app/Dashboard.py
 ```
 
 ## Team: Artificial Not Intelligent
