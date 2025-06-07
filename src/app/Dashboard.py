@@ -7,16 +7,7 @@ from datetime import datetime, timedelta
 from src.app.utils.model_loader import ModelManager
 from src.app.utils.navigation import render_custom_navigation, add_sidebar_logo
 
-# Initialize model manager in session state if not already present
-if 'model_manager' not in st.session_state:
-    st.session_state.model_manager = ModelManager()
-    # Load models at startup
-    with st.spinner("Loading ML models..."):
-        load_success = st.session_state.model_manager.load_models()
-        if not load_success:
-            st.warning("Some models failed to load. Some functionality may be limited.")
-
-# Page configuration
+# Page configuration - MUST be first Streamlit command
 st.set_page_config(
     page_title="Dashboard - KomuterPulse",
     page_icon="🚆",
@@ -28,6 +19,21 @@ st.set_page_config(
         'About': 'KomuterPulse v1.0.0 - Real-time Transit Intelligence Platform'
     }
 )
+
+# Initialize model manager in session state if not already present
+if 'model_manager' not in st.session_state:
+    # Create a placeholder for loading messages
+    loading_placeholder = st.empty()
+    
+    with loading_placeholder.container():
+        with st.spinner("Loading ML models..."):
+            st.session_state.model_manager = ModelManager()
+            load_success = st.session_state.model_manager.load_models()
+            if not load_success:
+                st.warning("Some models failed to load. Some functionality may be limited.")
+    
+    # Clear the loading messages after models are loaded
+    loading_placeholder.empty()
 
 # Set dark theme
 st.markdown("""
@@ -206,7 +212,7 @@ st.markdown("""<hr style='margin-top:1rem; margin-bottom:1.5rem; border: 1px sol
 st.subheader("Hourly Ridership with Anomaly Detection")
 
 # Generate mock data for visualization
-dates = pd.date_range(datetime.now() - timedelta(hours=23), periods=24, freq='H')
+dates = pd.date_range(datetime.now() - timedelta(hours=23), periods=24, freq='h')
 ridership = np.random.randint(4000, 7000, size=24)
 # Simulate some anomalies
 ridership[5] = 8500  # Morning anomaly

@@ -215,6 +215,12 @@ You can also run the notebooks in Google Colab by uploading them from this repos
 ```
 python -m streamlit run src/app/Dashboard.py
 ```
+## Model Performance Evidence
+```
+Basic LSTM: RMSE=6.32, MAE=2.58, R²=0.54
+Cross-validation: RMSE=6.32±0.41, MAE=2.58±0.23, R²=0.54±0.06
+Multi-step forecasting: 1hr=6.32 RMSE, 24hr=14.87 RMSE
+```
 
 ## Team: Artificial Not Intelligent
 

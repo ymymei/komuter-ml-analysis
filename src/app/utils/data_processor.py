@@ -1,131 +1,193 @@
 # src/app/utils/data_processor.py
 
+# src/app/utils/data_processor.py
+
 import pandas as pd
 import numpy as np
-from datetime import datetime
-from .model_loader import ModelManager # Import ModelManager from the same package
+from datetime import datetime, timedelta
+import logging
+from .model_loader import ModelManager
 
-def process_user_input(origin, destination, date, time, model_manager: ModelManager):
-    """Processes user input into a feature vector for model prediction."""
+logger = logging.getLogger(__name__)
 
-    # Combine date and time into a single datetime object
-    datetime_obj = datetime.combine(date, time)
-
-    # Create a dictionary with raw features
-    raw_data = {
-        'origin': [origin],
-        'destination': [destination],
-        'datetime': [datetime_obj]
-    }
-    input_df = pd.DataFrame(raw_data)
-
-    # --- Feature Engineering (based on notebooks) ---
-    input_df['route'] = input_df['origin'] + ' → ' + input_df['destination']
-    input_df['year'] = input_df['datetime'].dt.year
-    input_df['month'] = input_df['datetime'].dt.month
-    input_df['day'] = input_df['datetime'].dt.day
-    input_df['day_of_week'] = input_df['datetime'].dt.dayofweek
-    input_df['hour'] = input_df['datetime'].dt.hour
-
-    # Cyclical features
-    input_df['hour_sin'] = np.sin(2 * np.pi * input_df['hour']/24)
-    input_df['hour_cos'] = np.cos(2 * np.pi * input_df['hour']/24)
-    input_df['day_of_week_sin'] = np.sin(2 * np.pi * input_df['day_of_week']/7)
-    input_df['day_of_week_cos'] = np.cos(2 * np.pi * input_df['day_of_week']/7)
-
-    # Time segment features (simplified - assuming non-weekend for rush/peak hours)
-    input_df['is_weekend'] = (input_df['day_of_week'] >= 5).astype(int)
-    # Note: is_rush_hour, is_peak_morning, is_peak_evening, is_business_hours, is_night_hours
-    # These require considering is_weekend and hour ranges. Implementing a simplified version:
-    hour = input_df['hour'].iloc[0]
-    is_weekend = input_df['is_weekend'].iloc[0]
-    input_df['is_rush_hour'] = int(((hour >= 7 and hour <= 9) or (hour >= 17 and hour <= 19)) and not is_weekend)
-    input_df['is_peak_morning'] = int(((hour >= 6 and hour <= 9) and not is_weekend))
-    input_df['is_peak_evening'] = int(((hour >= 17 and hour <= 20) and not is_weekend))
-    input_df['is_business_hours'] = int(((hour >= 9 and hour <= 17) and not is_weekend))
-    input_df['is_night_hours'] = int(((hour >= 21 or hour <= 5)))
-    input_df['hour_of_day'] = hour # Based on notebook
-
-    # --- Encoding and Scaling (using loaded preprocessing info) ---
-    # Need to access loaded maps and scalers from ModelManager
-    preprocessing_info = model_manager.preprocessing_info
-
-    if preprocessing_info is None:
-        raise ValueError("Preprocessing information not loaded. Cannot process input.")
-
-    # Apply frequency and popularity encoding
-    input_df['origin_freq'] = input_df['origin'].map(preprocessing_info.get('origin_freq_map', {None:0})).fillna(0)
-    input_df['destination_freq'] = input_df['destination'].map(preprocessing_info.get('dest_freq_map', {None:0})).fillna(0)
-    input_df['origin_popularity'] = input_df['origin'].map(preprocessing_info.get('origin_pop_map', {None:0})).fillna(0)
-    input_df['destination_popularity'] = input_df['destination'].map(preprocessing_info.get('dest_pop_map', {None:0})).fillna(0)
-
-    # Handle potential new stations not in training data maps by assigning 0 or a default.
-    # The .fillna(0) handles cases where the map doesn't have the key.
-
-    # --- Select features for the model --- (Based on typical features used in notebooks)
-    # Need to ensure the order matches the training data order
-    # This requires knowing the exact list and order of features used for training the LSTM model
-    # For now, let's define a likely set based on notebook analysis:
-    feature_columns = [
-        # Time Features
-        'hour', 'day_of_week', 'year', 'month', 'day', # Include raw time features
-        'hour_sin', 'hour_cos', 'day_of_week_sin', 'day_of_week_cos',
-        'is_weekend', 'is_rush_hour', 'is_peak_morning', 'is_peak_evening', 
-        'is_business_hours', 'is_night_hours', 'hour_of_day',
-        # Station Features
-        'origin_freq', 'destination_freq', 'origin_popularity', 'destination_popularity',
-        # Note: Lagged features, rolling stats, diffs, outliers are omitted for single point prediction
-        # as they depend on historical context not available from user input alone.
-        # If your model requires these, you'll need a data lookup mechanism.
-    ]
-    
-    # Ensure all expected feature columns are present, add missing ones with default values (e.g., 0 or mean)
-    # This part requires knowing the *exact* list of features your trained model expects.
-    # For demonstration, I'll select a subset we know how to create:
-    processed_features_df = input_df[[
-        'hour', 'day_of_week', 'year', 'month', 'day',
-        'hour_sin', 'hour_cos', 'day_of_week_sin', 'day_of_week_cos',
-        'is_weekend', 'is_rush_hour', 'is_peak_morning', 'is_peak_evening', 
-        'is_business_hours', 'is_night_hours', 'hour_of_day',
-        'origin_freq', 'destination_freq', 'origin_popularity', 'destination_popularity'
-        # ... add other features if you can generate them or fill with defaults ...
-    ]]
-
-    # Apply scaling using the scaler loaded by ModelManager
-    scaler_X = preprocessing_info.get('scaler_X')
-    if scaler_X is None:
-         # Handle case where scaler_X was not found in the pkl. Maybe it was saved under a different key?
-         # Or maybe the model expects unscaled input for some features?
-         print("Warning: scaler_X not found in preprocessing_info. Skipping scaling.")
-         processed_scaled_input = processed_features_df.values # Use unscaled values for now
-    else:
-        processed_scaled_input = scaler_X.transform(processed_features_df)
+def get_historical_ridership_data(route, end_datetime, hours_back=24):
+    """
+    Get historical ridership data for a route.
+    This is a simplified version - in production, this would query a database.
+    For now, we'll use the recommendations data as a proxy for historical patterns.
+    """
+    try:
+        # In a real implementation, this would query historical ridership data
+        # For now, we'll simulate based on typical patterns
         
-    # LSTM models typically expect input in the shape [samples, time_steps, features]
-    # For a single prediction, samples=1, time_steps=1 (if predicting one step ahead based on current features)
-    # Assuming your model predicts based on a single time step of features:
-    # The shape would be [1, 1, number_of_features]
-    
-    # Number of features should match the model's expected input shape.
-    # This is a critical point and depends on how your LSTM was trained.
-    # If your LSTM expects a sequence (e.g., the last N hours), this processing logic needs to be more complex
-    # to look up or simulate that sequence data.
-    
-    # Assuming for now it takes a single time step of features:
-    # We need to know the exact number and order of features the model expects from preprocessing_info or model summary.
-    # Let's check the shape after scaling - it should be (1, num_features)
-    num_features = processed_scaled_input.shape[1]
-    
-    # Reshape for LSTM [samples, time_steps, features]
-    # Assuming time_steps = 1 for a single point prediction
-    lstm_input = processed_scaled_input.reshape(1, 1, num_features)
+        # Generate synthetic historical data based on typical daily patterns
+        dates = pd.date_range(end=end_datetime, periods=hours_back, freq='h')
+        
+        # Create realistic hourly patterns (higher during rush hours)
+        ridership_pattern = []
+        for dt in dates:
+            hour = dt.hour
+            dow = dt.dayofweek
+            
+            # Base ridership
+            base = 50
+            
+            # Rush hour multipliers
+            if hour in [7, 8, 17, 18, 19]:  # Rush hours
+                multiplier = 2.5
+            elif hour in [6, 9, 16, 20]:  # Near rush hours
+                multiplier = 1.8
+            elif hour in [10, 11, 12, 13, 14, 15]:  # Business hours
+                multiplier = 1.3
+            elif hour in [21, 22]:  # Evening
+                multiplier = 0.8
+            else:  # Night/early morning
+                multiplier = 0.3
+            
+            # Weekend adjustment
+            if dow >= 5:  # Weekend
+                if hour in [10, 11, 12, 13, 14, 15, 16]:  # Weekend active hours
+                    multiplier *= 1.2
+                else:
+                    multiplier *= 0.7
+            
+            # Add some randomness
+            noise = np.random.normal(1, 0.2)
+            ridership = max(1, base * multiplier * noise)
+            ridership_pattern.append(ridership)
+        
+        # Create DataFrame
+        historical_data = pd.DataFrame({
+            'datetime': dates,
+            'ridership': ridership_pattern,
+            'route': route
+        })
+        
+        return historical_data
+        
+    except Exception as e:
+        logger.error(f"Error generating historical data: {e}")
+        return None
 
-    return lstm_input
+def create_lstm_features(historical_data):
+    """
+    Create the exact features that the LSTM model expects.
+    Based on the trained model's feature list.
+    """
+    try:
+        df = historical_data.copy()
+        df = df.sort_values('datetime')
+        
+        # Calculate the features that the model expects
+        df['avg_ridership'] = df['ridership'].rolling(window=6, min_periods=1).mean()
+        df['max_ridership'] = df['ridership'].rolling(window=12, min_periods=1).max()
+        
+        # Differences
+        df['ridership_diff_1h'] = df['ridership'].diff(1)
+        df['ridership_diff_2h'] = df['ridership'].diff(2)
+        df['ridership_diff_1d'] = df['ridership'].diff(24) if len(df) >= 24 else 0
+        df['ridership_diff_1w'] = df['ridership'].diff(168) if len(df) >= 168 else 0  # 7*24 hours
+        
+        # Percentage changes
+        df['ridership_pct_change_1d'] = df['ridership'].pct_change(24) if len(df) >= 24 else 0
+        df['ridership_pct_change_1w'] = df['ridership'].pct_change(168) if len(df) >= 168 else 0
+        
+        # Rolling statistics
+        df['rolling_mean_3h'] = df['ridership'].rolling(window=3, min_periods=1).mean()
+        df['rolling_mean_6h'] = df['ridership'].rolling(window=6, min_periods=1).mean()
+        df['rolling_max_3h'] = df['ridership'].rolling(window=3, min_periods=1).max()
+        df['rolling_max_6h'] = df['ridership'].rolling(window=6, min_periods=1).max()
+        df['rolling_max_12h'] = df['ridership'].rolling(window=12, min_periods=1).max()
+        df['rolling_max_24h'] = df['ridership'].rolling(window=24, min_periods=1).max()
+        df['rolling_min_3h'] = df['ridership'].rolling(window=3, min_periods=1).min()
+        df['rolling_std_3h'] = df['ridership'].rolling(window=3, min_periods=1).std()
+        df['rolling_std_6h'] = df['ridership'].rolling(window=6, min_periods=1).std()
+        
+        # Lag features
+        df['total_ridership_lag_2h'] = df['ridership'].shift(2)
+        
+        # Fill NaN values
+        df = df.fillna(method='bfill').fillna(0)
+        
+        return df
+        
+    except Exception as e:
+        logger.error(f"Error creating LSTM features: {e}")
+        return None
+
+def process_user_input_for_lstm(origin, destination, date, time, model_manager: ModelManager):
+    """
+    Process user input for LSTM prediction using historical data approach.
+    """
+    try:
+        # Combine date and time
+        target_datetime = datetime.combine(date, time)
+        route = f"{origin} → {destination}"
+        
+        # Get historical data (24 hours before the target time)
+        historical_data = get_historical_ridership_data(route, target_datetime, hours_back=24)
+        
+        if historical_data is None:
+            logger.error("Failed to get historical data")
+            return None
+        
+        # Create LSTM features
+        feature_df = create_lstm_features(historical_data)
+        
+        if feature_df is None:
+            logger.error("Failed to create LSTM features")
+            return None
+        
+        # Select the exact features the model expects
+        expected_features = [
+            'avg_ridership', 'max_ridership', 'ridership_diff_1d', 'ridership_diff_1h', 
+            'ridership_diff_1w', 'ridership_diff_2h', 'ridership_pct_change_1d', 
+            'ridership_pct_change_1w', 'rolling_max_12h', 'rolling_max_24h', 
+            'rolling_max_3h', 'rolling_max_6h', 'rolling_mean_3h', 'rolling_mean_6h', 
+            'rolling_min_3h', 'rolling_std_3h', 'rolling_std_6h', 'total_ridership_lag_2h'
+        ]
+        
+        # Ensure all features exist
+        for feature in expected_features:
+            if feature not in feature_df.columns:
+                feature_df[feature] = 0
+        
+        # Select features in the correct order
+        feature_matrix = feature_df[expected_features].values
+        
+        # Get the last 24 time steps for prediction
+        if len(feature_matrix) >= 24:
+            lstm_input = feature_matrix[-24:]  # Last 24 hours
+        else:
+            # Pad with zeros if we don't have enough data
+            padding = np.zeros((24 - len(feature_matrix), len(expected_features)))
+            lstm_input = np.vstack([padding, feature_matrix])
+        
+        # Apply scaling
+        preprocessing_info = model_manager.preprocessing_info
+        scaler_X = preprocessing_info.get('scaler_X')
+        
+        if scaler_X is not None:
+            # Reshape for scaling (samples, features)
+            original_shape = lstm_input.shape
+            lstm_input_scaled = scaler_X.transform(lstm_input.reshape(-1, lstm_input.shape[-1]))
+            lstm_input_scaled = lstm_input_scaled.reshape(original_shape)
+        else:
+            lstm_input_scaled = lstm_input
+            logger.warning("No scaler found, using unscaled data")
+        
+        # Reshape for LSTM: (batch_size, time_steps, features)
+        lstm_input_final = lstm_input_scaled.reshape(1, 24, len(expected_features))
+        
+        logger.info(f"LSTM input shape: {lstm_input_final.shape}")
+        return lstm_input_final
+        
+    except Exception as e:
+        logger.error(f"Error processing user input for LSTM: {e}")
+        return None
 
 def mock_process_user_input(origin, destination, date, time):
     """A mock data processor for initial testing."""
-    print(f"Mock processing input: {origin} to {destination} on {date} at {time}")
-    # Simulate some processing
-    import time
-    time.sleep(0.2)
-    return np.random.rand(1, 1, 20) # Return a mock feature array shape (1, 1, num_features) 
+    logger.info(f"Mock processing input: {origin} to {destination} on {date} at {time}")
+    # Return mock data in the correct shape for LSTM (1, 24, 18)
+    return np.random.rand(1, 24, 18)

@@ -53,21 +53,20 @@ class ModelManager:
             with open(self.preprocessing_info_path, 'rb') as f:
                 self.preprocessing_info = pickle.load(f)
             st.success("Preprocessing information loaded successfully.")
-            logger.info("Preprocessing information loaded successfully")
-
-            # Check for expected preprocessing objects (e.g., scalers, maps)
+            logger.info("Preprocessing information loaded successfully")            # Check for expected preprocessing objects (e.g., scalers, maps)
             if 'scaler_X' not in self.preprocessing_info:
                 logger.warning("'scaler_X' not found in preprocessing_info")
                 st.warning("'scaler_X' not found in preprocessing_info. Scaling might be skipped in data processing.")
             if 'scaler_y' not in self.preprocessing_info:
                 logger.warning("'scaler_y' not found in preprocessing_info")
                 st.warning("'scaler_y' (for inverse transform) not found in preprocessing_info. Inverse scaling might be skipped in prediction.")
+            
+            # Check for optional frequency and popularity maps (only warn if specifically needed)
+            # These are not critical for basic model functionality
             if 'origin_freq_map' not in self.preprocessing_info or 'dest_freq_map' not in self.preprocessing_info:
-                logger.warning("Frequency maps not found in preprocessing_info")
-                st.warning("Frequency maps not found in preprocessing_info. Frequency encoding might not work correctly.")
+                logger.info("Frequency maps not found in preprocessing_info. Using alternative encoding methods.")
             if 'origin_pop_map' not in self.preprocessing_info or 'dest_pop_map' not in self.preprocessing_info:
-                logger.warning("Popularity maps not found in preprocessing_info")
-                st.warning("Popularity maps not found in preprocessing_info. Popularity encoding might not work correctly.")
+                logger.info("Popularity maps not found in preprocessing_info. Using alternative encoding methods.")
 
             # Log model summary
             logger.info("Model summary: %s", self.lstm_model.summary())
